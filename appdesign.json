@@ -1,0 +1,1621 @@
+{
+	"application": {
+		"title": "Meteor Kitchen",
+		"meta_description": "Meteor application generator",
+		"meta_title": "Meteor Generator",
+		"theme": "bootswatch-cyborg-darkly",
+		"footer_text": "Meteor Kitchen &copy; 2016 Petar Korponaić All Rights Reserved",
+		"roles": [
+			"admin",
+			"user",
+			"blocked"
+		],
+		"default_role": "user",
+		"collections": [
+			{
+				"name": "metadata",
+				"type": "collection",
+				"roles_allowed_to_update": [
+					"admin"
+				],
+				"roles_allowed_to_delete": [
+					"admin"
+				]
+			},
+			{
+				"name": "applications",
+				"type": "collection",
+				"fields": [
+					{
+						"name": "name",
+						"title": "Application name",
+						"type": "string",
+						"required": true
+					},
+					{
+						"name": "initialTemplate",
+						"title": "Initial template",
+						"type": "string",
+						"input": "radio",
+						"input_items": [
+							{
+								"value": "minimal",
+								"title": "Minimal: No user account system"
+							},
+							{
+								"value": "accounts",
+								"title": "Minimal: With user account system"
+							},
+							{
+								"value": "admin",
+								"title": "Example: Admin"
+							},
+							{
+								"value": "dataview",
+								"title": "Example: Dataview"
+							},
+							{
+								"value": "invoices",
+								"title": "Example: Invoices"
+							},
+							{
+								"value": "photosharing",
+								"title": "Example: Photosharing"
+							},
+							{
+								"value": "iot",
+								"title": "Example: IoT - sensors"
+							},
+							{
+								"value": "geiger",
+								"title": "Example: IoT - geiger"
+							}
+						],
+						"show_in_dataview": false,
+						"show_in_update_form": false,
+						"show_in_read_only_form": false
+					},
+					{
+						"name": "githubRepo",
+						"title": "GitHub Repository",
+						"type": "string",
+						"show_in_dataview": false,
+						"show_in_insert_form": false,
+						"show_in_update_form": false,
+						"show_in_read_only_form": false
+					}
+				],
+				"owner_field": "ownerId",
+				"roles_allowed_to_read": [
+					"owner"
+				],
+				"roles_allowed_to_insert": [
+					"admin",
+					"user"
+				],
+				"roles_allowed_to_update": [
+					"owner"
+				],
+				"roles_allowed_to_delete": [
+					"owner"
+				],
+				"before_insert_source_file": "files/applications_before_insert.js"
+			}
+		],
+		"queries": [
+			{
+				"name": "metadata",
+				"collection": "metadata",
+				"find_one": true,
+				"filter": "{}",
+				"options": "{\"sort\":{\"version\":-1}}"
+			},
+			{
+				"name": "applications",
+				"collection": "applications",
+				"filter": "{}",
+				"options": "{\"sort\":{\"name\":1}}"
+			},
+			{
+				"name": "applications_empty",
+				"collection": "applications",
+				"find_one": true,
+				"filter": "{\"_id\":null}",
+				"options": "{}"
+			},
+			{
+				"name": "application",
+				"collection": "applications",
+				"find_one": true,
+				"filter": "{\"_id\":\":applicationId\"}",
+				"options": "{}",
+				"related_queries": [
+					{
+						"name": "metadata"
+					}
+				]
+			},
+			{
+				"name": "admin_users",
+				"collection": "users",
+				"filter": "{}",
+				"options": "{}"
+			},
+			{
+				"name": "admin_user",
+				"collection": "users",
+				"find_one": true,
+				"filter": "{\"_id\":\":userId\"}",
+				"options": "{}"
+			},
+			{
+				"name": "users_null",
+				"collection": "users",
+				"find_one": true,
+				"filter": "{\"_id\":null}",
+				"options": "{}"
+			},
+			{
+				"name": "current_user_data",
+				"collection": "users",
+				"find_one": true,
+				"filter": "{\"_id\":\"Meteor.userId()\"}",
+				"options": "{}"
+			}
+		],
+		"free_zone": {
+			"type": "zone",
+			"pages": [
+				{
+					"name": "getting_started",
+					"type": "page",
+					"components": [
+						{
+							"name": "sidebar",
+							"type": "div",
+							"dest_selector": ".page-container",
+							"dest_position": "before",
+							"class": "col-xs-5 col-sm-3 col-md-2 sidebar",
+							"components": [
+								{
+									"name": "menu",
+									"type": "menu",
+									"class": "nav nav-pills nav-stacked",
+									"items": [
+										{
+											"title": "Quick Start Videos",
+											"url": "#quick-start-videos"
+										},
+										{
+											"title": "Download",
+											"url": "#download"
+										},
+										{
+											"title": "CLI",
+											"url": "#cli"
+										},
+										{
+											"title": "Input File",
+											"url": "#input-file"
+										},
+										{
+											"title": "Pages and Menus",
+											"url": "#pages-and-menus"
+										},
+										{
+											"title": "Subpages",
+											"url": "#subpages"
+										},
+										{
+											"title": "Frontend Framework",
+											"url": "#frontend-framework"
+										},
+										{
+											"title": "Visual Themes",
+											"url": "#visual-themes"
+										},
+										{
+											"title": "Components",
+											"url": "#components"
+										},
+										{
+											"title": "Collections",
+											"url": "#collections"
+										},
+										{
+											"title": "Queries",
+											"url": "#queries"
+										},
+										{
+											"title": "Joins",
+											"url": "#joins"
+										},
+										{
+											"title": "DataView Component",
+											"url": "#dataview-component"
+										},
+										{
+											"title": "Form Component",
+											"url": "#form-component"
+										},
+										{
+											"title": "Route Params",
+											"url": "#route-params"
+										},
+										{
+											"title": "Custom components",
+											"url": "#custom-components"
+										},
+										{
+											"title": "Plugins",
+											"url": "#plugins"
+										},
+										{
+											"title": "Server Side Routes",
+											"url": "#server-side-routes"
+										},
+										{
+											"title": "OAuth",
+											"url": "#oauth"
+										},
+										{
+											"title": "User Roles",
+											"url": "#user-roles"
+										},
+										{
+											"title": "File Uploads",
+											"url": "#file-uploads"
+										}
+									],
+									"object_type": "menu"
+								}
+							],
+							"object_type": "div"
+						},
+						{
+							"name": "content",
+							"type": "markdown",
+							"source_file": "files/getting_started.md",
+							"object_type": "markdown"
+						}
+					],
+					"meta_description": "Getting started with meteor.js code generator",
+					"meta_title": "Getting started",
+					"container_class": "col-xs-7 col-xs-offset-5 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2"
+				},
+				{
+					"name": "examples",
+					"type": "page",
+					"components": [
+						{
+							"name": "content",
+							"type": "markdown",
+							"source_file": "files/examples.md",
+							"object_type": "markdown"
+						}
+					],
+					"template_rendered_code": "$('table').addClass('table');",
+					"meta_description": "Example applications created with meteor-kitchen",
+					"meta_title": "Examples"
+				},
+				{
+					"name": "api_reference",
+					"type": "page",
+					"components": [
+						{
+							"name": "sidebar",
+							"type": "div",
+							"dest_selector": ".page-container",
+							"dest_position": "before",
+							"class": "col-xs-5 col-sm-3 col-md-2 sidebar",
+							"components": [
+								{
+									"name": "menu",
+									"type": "menu",
+									"class": "nav nav-pills nav-stacked",
+									"items": [
+										{
+											"title": "application",
+											"url": "#application"
+										},
+										{
+											"title": "collection",
+											"url": "#collection"
+										},
+										{
+											"title": "custom_component",
+											"url": "#custom_component"
+										},
+										{
+											"title": "data_view",
+											"url": "#data_view"
+										},
+										{
+											"title": "div",
+											"url": "#div"
+										},
+										{
+											"title": "field",
+											"url": "#field"
+										},
+										{
+											"title": "file_pair",
+											"url": "#file_pair"
+										},
+										{
+											"title": "form",
+											"url": "#form"
+										},
+										{
+											"title": "hidden_field",
+											"url": "#hidden_field"
+										},
+										{
+											"title": "input_item",
+											"url": "#input_item"
+										},
+										{
+											"title": "jumbotron",
+											"url": "#jumbotron"
+										},
+										{
+											"title": "markdown",
+											"url": "#markdown"
+										},
+										{
+											"title": "menu",
+											"url": "#menu"
+										},
+										{
+											"title": "menu_item",
+											"url": "#menu_item"
+										},
+										{
+											"title": "packages",
+											"url": "#packages"
+										},
+										{
+											"title": "page",
+											"url": "#page"
+										},
+										{
+											"title": "query",
+											"url": "#query"
+										},
+										{
+											"title": "param",
+											"url": "#param"
+										},
+										{
+											"title": "section",
+											"url": "#section"
+										},
+										{
+											"title": "server_side_route",
+											"url": "#server_side_route"
+										},
+										{
+											"title": "subscription",
+											"url": "#subscription"
+										},
+										{
+											"title": "tree_view",
+											"url": "#tree_view"
+										},
+										{
+											"title": "zone",
+											"url": "#zone"
+										}
+									],
+									"object_type": "menu"
+								}
+							],
+							"object_type": "div"
+						},
+						{
+							"name": "content",
+							"type": "markdown",
+							"source_file": "files/api_reference.md",
+							"object_type": "markdown"
+						}
+					],
+					"template_rendered_code": "$('table').addClass('table');",
+					"meta_description": "API reference for Meteor.js code generator",
+					"meta_title": "API reference",
+					"container_class": "col-xs-7 col-xs-offset-5 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2"
+				},
+				{
+					"name": "version_history",
+					"type": "page",
+					"components": [
+						{
+							"name": "row",
+							"type": "div",
+							"class": "row",
+							"components": [
+								{
+									"name": "left",
+									"type": "div",
+									"class": "col-sm-6",
+									"components": [
+										{
+											"name": "version_history",
+											"type": "markdown",
+											"source_file": "files/version_history.md",
+											"object_type": "markdown"
+										}
+									],
+									"object_type": "div"
+								},
+								{
+									"name": "right",
+									"type": "div",
+									"class": "col-sm-6",
+									"components": [
+										{
+											"name": "events",
+											"type": "markdown",
+											"source_file": "files/events.md",
+											"object_type": "markdown"
+										}
+									],
+									"object_type": "div"
+								}
+							],
+							"object_type": "div"
+						}
+					],
+					"meta_description": "Meteor.js code generator version history",
+					"meta_title": "What's Up"
+				},
+				{
+					"name": "contribute",
+					"type": "page",
+					"components": [
+						{
+							"name": "content",
+							"type": "markdown",
+							"source_file": "files/contribute.md",
+							"object_type": "markdown"
+						}
+					],
+					"meta_description": "Contribute to Meteor.js code generator",
+					"meta_title": "Contribute"
+				},
+				{
+					"name": "donate",
+					"type": "page",
+					"components": [
+						{
+							"name": "content",
+							"type": "markdown",
+							"source_file": "files/donate.md",
+							"object_type": "markdown"
+						}
+					],
+					"meta_description": "Support Meteor.js code generator",
+					"meta_title": "Donate"
+				},
+				{
+					"name": "stats",
+					"type": "page",
+					"components": [
+						{
+							"name": "users",
+							"type": "custom_component",
+							"html": "<template name=\"TEMPLATE_NAME\"><h1><span class=\"text-muted\">Number of registered users:</span>{{userCount}}</h1><h1><span class=\"text-muted\">Number of applications:</span>{{appCount}}</h1></tamplate>",
+							"js": "Template.TEMPLATE_NAME.rendered = function() { Meteor.call(\"userCount\", function(e, r) { if(e) pageSession.set(\"userCount\", e.message); else pageSession.set(\"userCount\", r); }); Meteor.call(\"appCount\", function(e, r) { if(e) pageSession.set(\"appCount\", e.message); else pageSession.set(\"appCount\", r); }); }; Template.TEMPLATE_NAME.helpers({ userCount: function() { return pageSession.get(\"userCount\"); }, appCount: function() { return pageSession.get(\"appCount\"); } });",
+							"object_type": "custom_component"
+						}
+					]
+				}
+			]
+		},
+		"public_zone": {
+			"type": "zone",
+			"components": [
+				{
+					"name": "left_menu",
+					"type": "menu",
+					"dest_selector": "#menu",
+					"class": "nav navbar-nav",
+					"items": [
+						{
+							"title": "Home",
+							"route": "home_public",
+							"icon_class": "fa fa-home"
+						},
+						{
+							"title": "Getting started",
+							"route": "getting_started"
+						},
+						{
+							"title": "Examples",
+							"route": "examples"
+						},
+						{
+							"title": "API Reference",
+							"route": "api_reference"
+						},
+						{
+							"title": "What's Up?",
+							"route": "version_history"
+						},
+						{
+							"title": "Contribute",
+							"route": "contribute"
+						},
+						{
+							"title": "Donate",
+							"route": "donate"
+						}
+					],
+					"object_type": "menu"
+				},
+				{
+					"name": "right_menu",
+					"type": "menu",
+					"dest_selector": "#menu",
+					"class": "nav navbar-nav navbar-right",
+					"items": [
+						{
+							"title": "Register",
+							"route": "register"
+						},
+						{
+							"title": "Login",
+							"route": "login"
+						}
+					],
+					"object_type": "menu"
+				}
+			],
+			"pages": [
+				{
+					"name": "home_public",
+					"type": "page",
+					"components": [
+						{
+							"name": "jumbotron",
+							"type": "jumbotron",
+							"dest_position": "before",
+							"components": [
+								{
+									"name": "jumbotron_content",
+									"type": "custom_component",
+									"custom_template": "files/jumbotron/jumbotron",
+									"object_type": "custom_component"
+								}
+							],
+							"image_url": "/images/jumbotron-bg.png",
+							"object_type": "jumbotron"
+						},
+						{
+							"name": "features_top_row",
+							"type": "div",
+							"class": "row",
+							"components": [
+								{
+									"name": "features_top_col",
+									"type": "div",
+									"class": "col-md-12",
+									"components": [
+										{
+											"name": "features_top",
+											"type": "markdown",
+											"source_file": "files/features_top.md",
+											"object_type": "markdown"
+										}
+									],
+									"object_type": "div"
+								}
+							],
+							"object_type": "div"
+						},
+						{
+							"name": "features_detail_row_1",
+							"type": "div",
+							"class": "row",
+							"components": [
+								{
+									"name": "features_detail_col_1",
+									"type": "div",
+									"class": "col-md-6",
+									"components": [
+										{
+											"name": "features_detail_1",
+											"type": "markdown",
+											"source_file": "files/features_detail_1.md",
+											"object_type": "markdown"
+										}
+									],
+									"object_type": "div"
+								},
+								{
+									"name": "features_detail_col_2",
+									"type": "div",
+									"class": "col-md-6",
+									"components": [
+										{
+											"name": "features_detail_2",
+											"type": "markdown",
+											"source_file": "files/features_detail_2.md",
+											"object_type": "markdown"
+										}
+									],
+									"object_type": "div"
+								}
+							],
+							"object_type": "div"
+						},
+						{
+							"name": "features_detail_row_2",
+							"type": "div",
+							"class": "row",
+							"components": [
+								{
+									"name": "features_detail_col_3",
+									"type": "div",
+									"class": "col-md-6",
+									"components": [
+										{
+											"name": "features_detail_3",
+											"type": "markdown",
+											"source_file": "files/features_detail_3.md",
+											"object_type": "markdown"
+										}
+									],
+									"object_type": "div"
+								},
+								{
+									"name": "features_detail_col_4",
+									"type": "div",
+									"class": "col-md-6",
+									"components": [
+										{
+											"name": "features_detail_4",
+											"type": "markdown",
+											"source_file": "files/features_detail_4.md",
+											"object_type": "markdown"
+										}
+									],
+									"object_type": "div"
+								}
+							],
+							"object_type": "div"
+						},
+						{
+							"name": "features_bottom_row",
+							"type": "div",
+							"class": "row",
+							"components": [
+								{
+									"name": "features_bottom_col",
+									"type": "div",
+									"class": "col-md-12",
+									"components": [
+										{
+											"name": "features_bottom",
+											"type": "markdown",
+											"source_file": "files/features_bottom.md",
+											"object_type": "markdown"
+										}
+									],
+									"object_type": "div"
+								}
+							],
+							"object_type": "div"
+						}
+					]
+				},
+				{
+					"name": "login",
+					"type": "page",
+					"template": "login"
+				},
+				{
+					"name": "register",
+					"type": "page",
+					"template": "register"
+				},
+				{
+					"name": "forgot_password",
+					"type": "page",
+					"template": "forgot_password"
+				},
+				{
+					"name": "reset_password",
+					"type": "page",
+					"template": "reset_password",
+					"route_params": [
+						"resetPasswordToken"
+					]
+				}
+			]
+		},
+		"private_zone": {
+			"type": "zone",
+			"components": [
+				{
+					"name": "left_menu",
+					"type": "menu",
+					"dest_selector": "#menu",
+					"class": "nav navbar-nav",
+					"items": [
+						{
+							"title": "Home",
+							"route": "applications",
+							"icon_class": "fa fa-home"
+						},
+						{
+							"title": "Getting started",
+							"route": "getting_started"
+						},
+						{
+							"title": "Examples",
+							"route": "examples"
+						},
+						{
+							"title": "API Reference",
+							"route": "api_reference"
+						},
+						{
+							"title": "What's Up?",
+							"route": "version_history"
+						},
+						{
+							"title": "Contribute",
+							"route": "contribute"
+						},
+						{
+							"title": "Donate",
+							"route": "donate"
+						}
+					],
+					"object_type": "menu"
+				},
+				{
+					"name": "right_menu",
+					"type": "menu",
+					"dest_selector": "#menu",
+					"class": "nav navbar-nav navbar-right",
+					"items": [
+						{
+							"title": "Admin",
+							"route": "admin"
+						},
+						{
+							"title": "{{userEmail}}",
+							"items": [
+								{
+									"title": "Settings",
+									"route": "user_settings"
+								},
+								{
+									"title": "Logout",
+									"route": "logout"
+								}
+							]
+						}
+					],
+					"object_type": "menu"
+				}
+			],
+			"pages": [
+				{
+					"name": "applications",
+					"type": "page",
+					"components": [
+						{
+							"name": "view",
+							"type": "data_view",
+							"title": "My applications",
+							"query_name": "applications",
+							"text_if_empty": "No applications here",
+							"insert_route": "applications.insert",
+							"details_route": "applications.details",
+							"edit_route": "applications.edit",
+							"details_route_params": [
+								{
+									"name": "applicationId",
+									"value": "this._id"
+								},
+								{
+									"name": "objectId",
+									"value": null
+								},
+								{
+									"name": "propertyName",
+									"value": null
+								}
+							],
+							"edit_route_params": [
+								{
+									"name": "applicationId",
+									"value": "this._id"
+								}
+							],
+							"insert_button_title": "Create New",
+							"object_type": "data_view"
+						}
+					],
+					"pages": [
+						{
+							"name": "insert",
+							"type": "page",
+							"components": [
+								{
+									"name": "insert_form",
+									"type": "form",
+									"title": "New application",
+									"query_name": "applications_empty",
+									"mode": "insert",
+									"submit_route": "applications.details",
+									"cancel_route": "applications",
+									"submit_route_params": [
+										{
+											"name": "applicationId",
+											"value": "newId"
+										},
+										{
+											"name": "objectId",
+											"value": null
+										},
+										{
+											"name": "propertyName",
+											"value": null
+										}
+									],
+									"object_type": "form"
+								}
+							]
+						},
+						{
+							"name": "edit",
+							"type": "page",
+							"components": [
+								{
+									"name": "edit_form",
+									"type": "form",
+									"title": "Edit",
+									"query_name": "application",
+									"mode": "update",
+									"submit_route": "applications",
+									"cancel_route": "applications",
+									"object_type": "form"
+								}
+							],
+							"route_params": [
+								"applicationId"
+							]
+						},
+						{
+							"name": "details",
+							"type": "page",
+							"title": "{{application.name}}",
+							"events_code": "\"click .build-local\": function(e, t) { $(\".alert.build-info\").toggle(\"fast\"); }",
+							"query_name": "application",
+							"components": [
+								{
+									"name": "left_menu",
+									"type": "menu",
+									"class": "nav navbar-nav",
+									"items": [
+										{
+											"title": "Designer",
+											"route": "applications.details.form_view",
+											"route_params": [
+												{
+													"name": "applicationId",
+													"value": "application._id"
+												},
+												{
+													"name": "objectId",
+													"value": null
+												},
+												{
+													"name": "propertyName",
+													"value": null
+												}
+											],
+											"icon_class": "fa fa-edit"
+										},
+										{
+											"title": "Sitemap",
+											"route": "applications.details.sitemap",
+											"route_params": [
+												{
+													"name": "applicationId",
+													"value": "application._id"
+												},
+												{
+													"name": "objectId",
+													"value": null
+												},
+												{
+													"name": "propertyName",
+													"value": null
+												}
+											],
+											"icon_class": "fa fa-sitemap"
+										},
+										{
+											"title": "Database",
+											"route": "applications.details.database",
+											"route_params": [
+												{
+													"name": "applicationId",
+													"value": "application._id"
+												},
+												{
+													"name": "objectId",
+													"value": null
+												},
+												{
+													"name": "propertyName",
+													"value": null
+												}
+											],
+											"icon_class": "fa fa-database"
+										},
+										{
+											"title": "Edit Source",
+											"route": "applications.details.json_view",
+											"route_params": [
+												{
+													"name": "applicationId",
+													"value": "application._id"
+												},
+												{
+													"name": "objectId",
+													"value": null
+												},
+												{
+													"name": "propertyName",
+													"value": null
+												}
+											],
+											"icon_class": "fa fa-code"
+										},
+										{
+											"title": "Build & Run",
+											"route": "applications.details.console",
+											"route_params": [
+												{
+													"name": "applicationId",
+													"value": "application._id"
+												},
+												{
+													"name": "objectId",
+													"value": null
+												},
+												{
+													"name": "propertyName",
+													"value": null
+												}
+											],
+											"icon_class": "fa fa-rocket"
+										}
+									],
+									"object_type": "menu"
+								},
+								{
+									"name": "right_menu",
+									"type": "menu",
+									"dest_selector": "#menu",
+									"class": "nav navbar-nav navbar-right",
+									"object_type": "menu"
+								},
+								{
+									"name": "build_info",
+									"type": "div",
+									"dest_selector": "#title_row",
+									"dest_position": "after",
+									"class": "alert alert-info alert-dismissible build-info",
+									"components": [
+										{
+											"name": "text",
+											"type": "markdown",
+											"source_file": "files/build_info.md",
+											"object_type": "markdown"
+										}
+									],
+									"text": "<button type=\"button\" class=\"close build-local\"><span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span></button>",
+									"object_type": "div"
+								}
+							],
+							"template": "page_subcontent_navbar",
+							"container_class": "container-fluid app-editor-container",
+							"route_params": [
+								"applicationId",
+								"objectId",
+								"propertyName"
+							],
+							"back_route": "applications",
+							"pages": [
+								{
+									"name": "form_view",
+									"type": "page",
+									"class": "app-editor",
+									"query_name": "application",
+									"components": [
+										{
+											"name": "content_row",
+											"type": "div",
+											"class": "row",
+											"components": [
+												{
+													"name": "left_col",
+													"type": "div",
+													"class": "col-md-4",
+													"components": [
+														{
+															"name": "tree",
+															"type": "custom_component",
+															"custom_template": "files/object-tree/object-tree",
+															"object_type": "custom_component"
+														}
+													],
+													"object_type": "div"
+												},
+												{
+													"name": "right_col",
+													"type": "div",
+													"class": "col-md-8",
+													"components": [
+														{
+															"name": "form",
+															"type": "custom_component",
+															"custom_template": "files/object-editor/object-editor",
+															"object_type": "custom_component"
+														}
+													],
+													"object_type": "div"
+												}
+											],
+											"object_type": "div"
+										}
+									],
+									"parent_layout": true
+								},
+								{
+									"name": "sitemap",
+									"type": "page",
+									"class": "app-editor",
+									"query_name": "application",
+									"components": [
+										{
+											"name": "content_row",
+											"type": "div",
+											"class": "row",
+											"components": [
+												{
+													"name": "left_col",
+													"type": "div",
+													"class": "col-md-6",
+													"components": [
+														{
+															"name": "map",
+															"type": "custom_component",
+															"custom_template": "files/sitemap/sitemap",
+															"object_type": "custom_component"
+														}
+													],
+													"object_type": "div"
+												},
+												{
+													"name": "right_col",
+													"type": "div",
+													"class": "col-md-6",
+													"components": [
+														{
+															"name": "form",
+															"type": "custom_component",
+															"custom_template": "files/object-editor/object-editor",
+															"object_type": "custom_component"
+														}
+													],
+													"object_type": "div"
+												}
+											],
+											"object_type": "div"
+										}
+									],
+									"parent_layout": true
+								},
+								{
+									"name": "database",
+									"type": "page",
+									"class": "app-editor",
+									"query_name": "application",
+									"components": [
+										{
+											"name": "diagram",
+											"type": "custom_component",
+											"custom_template": "files/dbdiagram/dbdiagram",
+											"object_type": "custom_component"
+										}
+									],
+									"parent_layout": true
+								},
+								{
+									"name": "json_view",
+									"type": "page",
+									"class": "app-editor",
+									"query_name": "application",
+									"components": [
+										{
+											"name": "editor",
+											"type": "custom_component",
+											"custom_template": "files/json-editor/json-editor",
+											"object_type": "custom_component"
+										}
+									],
+									"parent_layout": true
+								},
+								{
+									"name": "console",
+									"type": "page",
+									"class": "app-editor",
+									"query_name": "application",
+									"components": [
+										{
+											"name": "console_view",
+											"type": "custom_component",
+											"custom_template": "files/console-view/console-view",
+											"object_type": "custom_component"
+										}
+									],
+									"parent_layout": true
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "admin",
+					"type": "page",
+					"components": [
+						{
+							"name": "side_menu",
+							"type": "menu",
+							"class": "nav nav-stacked nav-pills",
+							"items": [
+								{
+									"title": "Users",
+									"route": "admin.users"
+								}
+							],
+							"object_type": "menu"
+						}
+					],
+					"roles": [
+						"admin"
+					],
+					"pages": [
+						{
+							"name": "users",
+							"type": "page",
+							"components": [
+								{
+									"name": "view",
+									"type": "data_view",
+									"title": "Users",
+									"query_name": "admin_users",
+									"text_if_empty": "No users yet",
+									"insert_route": "admin.users.insert",
+									"details_route": "admin.users.details",
+									"edit_route": "admin.users.edit",
+									"details_route_params": [
+										{
+											"name": "userId",
+											"value": "this._id"
+										}
+									],
+									"edit_route_params": [
+										{
+											"name": "userId",
+											"value": "this._id"
+										}
+									],
+									"fields": [
+										{
+											"name": "profile.name",
+											"title": "Name",
+											"type": "string"
+										},
+										{
+											"name": "profile.email",
+											"title": "E-mail",
+											"type": "string"
+										},
+										{
+											"name": "roles",
+											"title": "Role",
+											"type": "string"
+										}
+									],
+									"object_type": "data_view"
+								}
+							],
+							"pages": [
+								{
+									"name": "details",
+									"type": "page",
+									"components": [
+										{
+											"name": "details_form",
+											"type": "form",
+											"title": "User details",
+											"query_name": "admin_user",
+											"mode": "read_only",
+											"close_route": "admin.users",
+											"back_route": "admin.users",
+											"fields": [
+												{
+													"name": "profile.name",
+													"title": "Name",
+													"type": "string"
+												},
+												{
+													"name": "profile.email",
+													"title": "E-mail",
+													"type": "email"
+												},
+												{
+													"name": "roles",
+													"title": "Role",
+													"type": "string"
+												}
+											],
+											"object_type": "form"
+										}
+									],
+									"route_params": [
+										"userId"
+									]
+								},
+								{
+									"name": "insert",
+									"type": "page",
+									"components": [
+										{
+											"name": "insert_form",
+											"type": "form",
+											"title": "Add new user",
+											"query_name": "users_null",
+											"mode": "insert",
+											"submit_route": "admin.users",
+											"cancel_route": "admin.users",
+											"fields": [
+												{
+													"name": "profile.name",
+													"title": "Name",
+													"type": "string",
+													"required": true
+												},
+												{
+													"name": "profile.email",
+													"title": "E-mail",
+													"type": "email",
+													"required": true
+												},
+												{
+													"name": "password",
+													"title": "Password",
+													"type": "string",
+													"required": true,
+													"input": "password"
+												}
+											],
+											"object_type": "form"
+										}
+									]
+								},
+								{
+									"name": "edit",
+									"type": "page",
+									"components": [
+										{
+											"name": "edit_form",
+											"type": "form",
+											"title": "Edit user",
+											"query_name": "admin_user",
+											"mode": "update",
+											"submit_route": "admin.users",
+											"cancel_route": "admin.users",
+											"fields": [
+												{
+													"name": "profile.name",
+													"title": "Name",
+													"type": "string",
+													"required": true
+												},
+												{
+													"name": "profile.email",
+													"title": "E-mail",
+													"type": "email",
+													"required": true
+												},
+												{
+													"name": "roles",
+													"title": "Role",
+													"type": "array",
+													"input": "radio",
+													"input_items": [
+														{
+															"value": "user",
+															"title": "User"
+														},
+														{
+															"value": "admin",
+															"title": "Admin"
+														},
+														{
+															"value": "blocked",
+															"title": "Blocked"
+														}
+													]
+												}
+											],
+											"object_type": "form"
+										}
+									],
+									"route_params": [
+										"userId"
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "user_settings",
+					"type": "page",
+					"components": [
+						{
+							"name": "side_menu",
+							"type": "menu",
+							"class": "nav nav-stacked nav-pills",
+							"items": [
+								{
+									"title": "Profile",
+									"route": "user_settings.profile"
+								},
+								{
+									"title": "Change password",
+									"route": "user_settings.change_pass"
+								}
+							],
+							"object_type": "menu"
+						}
+					],
+					"pages": [
+						{
+							"name": "profile",
+							"type": "page",
+							"components": [
+								{
+									"name": "edit_form",
+									"type": "form",
+									"title": "Edit your profile",
+									"query_name": "current_user_data",
+									"mode": "update",
+									"submit_route": "user_settings.profile",
+									"fields": [
+										{
+											"name": "profile.name",
+											"title": "Name",
+											"type": "string",
+											"required": true
+										},
+										{
+											"name": "profile.email",
+											"title": "E-mail",
+											"type": "email",
+											"required": true
+										}
+									],
+									"object_type": "form"
+								}
+							]
+						},
+						{
+							"name": "change_pass",
+							"type": "page",
+							"template": "change_pass"
+						}
+					]
+				},
+				{
+					"name": "logout",
+					"type": "page",
+					"template": "logout"
+				}
+			]
+		},
+		"login_with_google": true,
+		"login_with_github": true,
+		"login_with_meteor": true,
+		"server_startup_source_file": "files/startup_server.js",
+		"server_side_routes": [
+			{
+				"name": "install",
+				"source_file": "files/route_install.js"
+			},
+			{
+				"name": "api.getapp.json",
+				"route_params": [
+					"applicationId"
+				],
+				"source_file": "files/route_getapp_json.js"
+			}
+		],
+		"copy_files": [
+			{
+				"source": "files/start",
+				"dest": "OUTPUT_DIR/start"
+			},
+			{
+				"source": "files/styles.less",
+				"dest": "CLIENT_STYLES_DIR/styles.less"
+			},
+			{
+				"source": "files/analytics.js",
+				"dest": "CLIENT_DIR/analytics.js"
+			},
+			{
+				"source": "files/images/favicon.ico",
+				"dest": "PUBLIC_DIR/favicon.ico"
+			},
+			{
+				"source": "files/images/jumbotron-bg.png",
+				"dest": "PUBLIC_DIR/images/jumbotron-bg.png"
+			},
+			{
+				"source": "files/images/cupcakes.svg",
+				"dest": "PUBLIC_DIR/images/cupcakes.svg"
+			},
+			{
+				"source": "files/images/example-minimal.png",
+				"dest": "PUBLIC_DIR/images/example-minimal.png"
+			},
+			{
+				"source": "files/images/example-subpages.png",
+				"dest": "PUBLIC_DIR/images/example-subpages.png"
+			},
+			{
+				"source": "files/images/example-dataview.png",
+				"dest": "PUBLIC_DIR/images/example-dataview.png"
+			},
+			{
+				"source": "files/images/example-accounts.png",
+				"dest": "PUBLIC_DIR/images/example-accounts.png"
+			},
+			{
+				"source": "files/images/example-admin.png",
+				"dest": "PUBLIC_DIR/images/example-admin.png"
+			},
+			{
+				"source": "files/images/example-invoices.png",
+				"dest": "PUBLIC_DIR/images/example-invoices.png"
+			},
+			{
+				"source": "files/images/example-onepage.png",
+				"dest": "PUBLIC_DIR/images/example-onepage.png"
+			},
+			{
+				"source": "files/images/example-markdowned.png",
+				"dest": "PUBLIC_DIR/images/example-markdowned.png"
+			},
+			{
+				"source": "files/images/example-photosharing.png",
+				"dest": "PUBLIC_DIR/images/example-photosharing.png"
+			},
+			{
+				"source": "files/images/example-plugins.png",
+				"dest": "PUBLIC_DIR/images/example-plugins.png"
+			},
+			{
+				"source": "files/images/example-upload.png",
+				"dest": "PUBLIC_DIR/images/example-upload.png"
+			},
+			{
+				"source": "files/images/example-iot.png",
+				"dest": "PUBLIC_DIR/images/example-iot.png"
+			},
+			{
+				"source": "files/images/example-geiger.png",
+				"dest": "PUBLIC_DIR/images/example-geiger.png"
+			},
+			{
+				"source": "files/images/example-ide.png",
+				"dest": "PUBLIC_DIR/images/example-ide.png"
+			},
+			{
+				"source": "files/images/example-human2machine.png",
+				"dest": "PUBLIC_DIR/images/example-human2machine.png"
+			},
+			{
+				"source": "files/images/example-semantic.png",
+				"dest": "PUBLIC_DIR/images/example-semantic.png"
+			},
+			{
+				"source": "files/images/example-materialize.png",
+				"dest": "PUBLIC_DIR/images/example-materialize.png"
+			},
+			{
+				"source": "files/images/ribbon-donate-gratipay.png",
+				"dest": "PUBLIC_DIR/images/ribbon-donate-gratipay.png"
+			},
+			{
+				"source": "files/images/ribbon-donate-bitcoin.png",
+				"dest": "PUBLIC_DIR/images/ribbon-donate-bitcoin.png"
+			},
+			{
+				"source": "files/examples/example-minimal.json",
+				"dest": "PRIVATE_DIR/example-minimal.json"
+			},
+			{
+				"source": "files/examples/example-accounts.json",
+				"dest": "PRIVATE_DIR/example-accounts.json"
+			},
+			{
+				"source": "files/examples/example-admin.json",
+				"dest": "PRIVATE_DIR/example-admin.json"
+			},
+			{
+				"source": "files/examples/example-dataview.json",
+				"dest": "PRIVATE_DIR/example-dataview.json"
+			},
+			{
+				"source": "files/examples/example-invoices.json",
+				"dest": "PRIVATE_DIR/example-invoices.json"
+			},
+			{
+				"source": "files/examples/example-photosharing.json",
+				"dest": "PRIVATE_DIR/example-photosharing.json"
+			},
+			{
+				"source": "files/examples/example-iot.json",
+				"dest": "PRIVATE_DIR/example-iot.json"
+			},
+			{
+				"source": "files/examples/example-geiger.json",
+				"dest": "PRIVATE_DIR/example-geiger.json"
+			},
+			{
+				"source": "files/methods/github.js",
+				"dest": "SERVER_METHODS_DIR/github.js"
+			},
+			{
+				"source": "files/methods/user_stats.js",
+				"dest": "SERVER_METHODS_DIR/user_stats.js"
+			},
+			{
+				"source": "files/metadata.json",
+				"dest": "PRIVATE_DIR/metadata.json"
+			},
+			{
+				"source": "files/metadata_utils.js",
+				"dest": "LIB_DIR/metadata_utils.js"
+			},
+			{
+				"source": "files/dynamic-form/dynamic-form.html",
+				"dest": "CLIENT_LIB_DIR/dynamic-form.html"
+			},
+			{
+				"source": "files/dynamic-form/dynamic-form.js",
+				"dest": "CLIENT_LIB_DIR/dynamic-form.js"
+			}
+		],
+		"packages": {
+			"meteor": [
+				"datariot:ganalytics",
+				"perak:codemirror",
+				"d3",
+				"perak:dagre-d3"
+			]
+		}
+	}
+}
